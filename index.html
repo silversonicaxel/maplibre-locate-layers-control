@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapLibre Locate Layers Control - Demo</title>
+    <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script type="module">
+        import { Map, NavigationControl } from 'maplibre-gl';
+        import { MapLibreLocateLayersControl } from './src/index.ts';
+        import './src/index.css';
+
+        const triangleData = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [[
+                            [-10, 35],
+                            [15, 35],
+                            [2.5, 55],
+                            [-10, 35]
+                        ]]
+                    },
+                    properties: { name: 'Triangle' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [-10, 35] },
+                    properties: { name: 'Dot 1' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [15, 35] },
+                    properties: { name: 'Dot 2' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [2.5, 55] },
+                    properties: { name: 'Dot 3' }
+                }
+            ]
+        };
+
+        const map = new Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'osm-tiles': {
+                        type: 'raster',
+                        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }
+                },
+                layers: [{
+                    id: 'osm-layer',
+                    type: 'raster',
+                    source: 'osm-tiles',
+                    minzoom: 0,
+                    maxzoom: 19
+                }]
+            },
+            center: [80, 20],
+            zoom: 4
+        });
+
+        map.on('load', () => {
+            map.addSource('triangle-source', {
+                type: 'geojson',
+                data: triangleData
+            });
+
+            map.addLayer({
+                id: 'triangle-fill',
+                type: 'fill',
+                source: 'triangle-source',
+                filter: ['==', ['geometry-type'], 'Polygon'],
+                paint: {
+                    'fill-color': '#3bb2d0',
+                    'fill-opacity': 0.4
+                }
+            });
+
+            map.addLayer({
+                id: 'triangle-outline',
+                type: 'line',
+                source: 'triangle-source',
+                filter: ['==', ['geometry-type'], 'Polygon'],
+                paint: {
+                    'line-color': '#3bb2d0',
+                    'line-width': 3
+                }
+            });
+
+            map.addLayer({
+                id: 'triangle-dots',
+                type: 'circle',
+                source: 'triangle-source',
+                filter: ['==', ['geometry-type'], 'Point'],
+                paint: {
+                    'circle-radius': 7,
+                    'circle-color': '#e74c3c',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            const navControl = new NavigationControl();
+            map.addControl(navControl, 'top-left');
+
+            const locateLayerControl = new MapLibreLocateLayersControl({
+                padding: { top: 80, bottom: 80, left: 80, right: 80 },
+                flyTo: true
+            });
+            map.addControl(locateLayerControl, 'top-left');
+
+            // set all controls in one container
+            setTimeout(() => {
+                const navControlGroup = document.querySelector('.maplibregl-ctrl-group');
+                const locateLayerControlGroup = document.querySelector('.maplibregl-ctrl-locate-layers');
+                if (navControlGroup && locateLayerControlGroup) {
+                    locateLayerControlGroup.parentElement.replaceWith(locateLayerControlGroup);
+                    navControlGroup.appendChild(locateLayerControlGroup);
+                }
+            }, 100);
+        });
+    </script>
+
+</body>
+
+</html>

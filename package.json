@@ -1,0 +1,51 @@
+{
+  "name": "maplibre-locate-layers-control",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/maplibre-locate-layers-control.umd.cjs",
+  "module": "./dist/maplibre-locate-layers-control.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/maplibre-locate-layers-control.js",
+      "require": "./dist/maplibre-locate-layers-control.umd.cjs"
+    },
+    "./style.css": "./dist/maplibre-locate-layers-control.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "maplibre-gl": "^5.19.0",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.11"
+  },
+  "author": {
+    "name": "Alessandro Rabitti ~ silversonicaxel",
+    "url": "https://github.com/silversonicaxel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silversonicaxel/maplibre-locate-layers-control"
+  },
+  "bugs": {
+    "url": "https://github.com/silversonicaxel/maplibre-locate-layers-control/issues"
+  },
+  "keywords": [
+    "map",
+    "maplibre",
+    "maplibre-gl-js",
+    "maplibre-locate-layers-control",
+    "locate-layers-control",
+    "fit-bounds",
+    "plugin",
+    "control"
+  ]
+}

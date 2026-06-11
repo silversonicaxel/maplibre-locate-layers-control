@@ -1,11 +1,12 @@
 # maplibre-locate-layers-control
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 MapLibre Locate Layers Control is a plugin to fit map bounds to the geometry extent of style layers in MapLibre GL JS, in a simple but flexible way.
 
 The control renders a clean button that, when clicked, dynamically calculates the bounding box of active geometric layers and fits the map view to that extent.
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Features
 
